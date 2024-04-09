@@ -1,0 +1,80 @@
+.layout {
+  display: flex;
+  min-height: 100vh;
+  overflow: hidden;
+}
+
+.sider {
+  background-color: #283046;
+  color: white;
+  width: 210px;
+  padding: 20px 10px;
+  border: 1px solid #3B4253;
+}
+
+.menu {
+  display: flex;
+  flex-direction: column;
+  margin-top: 30px;
+}
+
+.menu-item {
+  color: white;
+  text-decoration: none;
+  font-family: Montserrat;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 23px;
+}
+
+.menu-btn {
+  padding: 10px 23px;
+  border-radius: 5px;
+  background: #7367F0;
+  line-height: 17.07px;
+  text-align: center;
+}
+
+.menu-btn:hover {
+  background: #8479F5;
+}
+
+.menu-link {
+  display: flex;
+  align-items: center;
+  margin: 5px 0;
+}
+
+.menu-link:active {
+  font-weight: 400;
+  color: #9B51E0;
+  line-height: 21px;
+}
+
+.content {
+  background-color: #283046;
+  flex-grow: 1;
+}
+
+.search-bar {
+  margin-bottom: 20px;
+  border: 1px solid #3B4253
+}
+
+.search-bar input {
+  padding: 8px;
+  margin-right: 10px;
+  border: 1px solid #ccc;
+}
+
+.search-bar button {
+  padding: 8px 16px;
+  background-color: #1890ff;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.main-content {
+  position: relative;
+}

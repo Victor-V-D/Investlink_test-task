@@ -1,0 +1,20 @@
+.search-bar {
+    height: 10%;
+    display: flex;
+    align-items: center;
+    padding: 18px 20px 18px 40px;
+}
+
+.search-bar input {
+    font-size: 14px;
+    padding: 8px;
+    margin: 0;
+    border: 0;
+    background: #283046;
+    border-color: #283046;
+}
+
+/* .search-bar input:active {
+    background: #283046;
+    border-color: #283046;
+} */
