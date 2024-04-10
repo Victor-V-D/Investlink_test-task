@@ -1,7 +1,7 @@
 import { ITask } from '../../interfaces/ITask';
 import { updateTaskStatus } from '../../features/taskSlice';
 import { useAppDispatch } from '../../store/hooks';
-import './task-card.css'
+import './TaskComponent.css'
 import DeleteTaskModal from '../UI/DeleteTaskModal/DeleteTaskModal';
 import { useEffect, useState } from 'react';
 
@@ -13,10 +13,25 @@ const TaskComponent = ({ task }: Props) => {
     const dispatch = useAppDispatch();
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [newStatus, setStatus] = useState(task.status);
+    const [formattedDate, setFormattedDate] = useState('');
 
     useEffect(() => {
         setStatus(task.status);
     }, [task.status]);
+
+    useEffect(() => {
+        if (task.date) {
+            const dateObj = new Date(task.date);
+            const hours = dateObj.getHours().toString().padStart(2, '0');
+            const minutes = dateObj.getMinutes().toString().padStart(2, '0');
+            const day = dateObj.getDate().toString().padStart(2, '0');
+            const month = (dateObj.getMonth() + 1).toString().padStart(2, '0');
+            const year = dateObj.getFullYear();
+            setFormattedDate(`${hours}:${minutes} / ${day}.${month}.${year}`);
+        } else {
+            setFormattedDate('');
+        }
+    }, [task.date]);
 
     const handleOpenModal = () => {
         setShowDeleteModal(true);
@@ -32,15 +47,15 @@ const TaskComponent = ({ task }: Props) => {
     };
 
     return (
-        <div className='task-card' style={{ marginBottom: '10px' }}>
-            <input 
-                type="checkbox" 
-                checked={task.status} 
-                onChange={handleCheckboxChange} 
+        <div className='task-card'>
+            <input
+                type="checkbox"
+                checked={task.status}
+                onChange={handleCheckboxChange}
             />
             <span>{task.text}</span>
             <p>{task.tags}</p>
-            <span>{task.date}</span>
+            <span>{formattedDate}</span>
             <button onClick={handleOpenModal}>Удалить</button>
             {showDeleteModal && <DeleteTaskModal taskId={task.id} onClose={handleCloseModal} />}
         </div>
