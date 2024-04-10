@@ -1,21 +1,32 @@
-import TaskComponent from "../../components/TaskComponent/TaskComponent.tsx";
 import { RootState } from "../../store/store.ts";
 import { useAppSelector } from "../../store/hooks.ts";
-// import './TaskList.css'
+import TaskComponent from "../../components/TaskComponent/TaskComponent.tsx";
 
-const TaskList = () => {
+interface TaskListProps {
+    selectedFilter: string;
+}
+
+const TaskList = ({ selectedFilter }: TaskListProps) => {
     const { tasks } = useAppSelector((state: RootState) => state.tasks.tasks);
+
+    const filterTasks = tasks.filter((task) => {
+        if (task.category.includes(selectedFilter)) {
+            return true;
+        } else if (task.tags.includes(selectedFilter)) {
+            return true;
+        }
+        return false;
+    });
 
     return (
         <div className="task-list">
-            <h1>Мои Задачи</h1>
-            {tasks.map((task) => (
+            <h1>{selectedFilter}</h1>
+            {filterTasks.map((task) => (
                 <TaskComponent
                     key={task.id}
                     task={task}
                 />
             ))}
-            <p>Задача</p>
         </div>
     );
 };

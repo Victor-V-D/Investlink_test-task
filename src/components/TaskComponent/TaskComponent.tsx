@@ -1,9 +1,9 @@
-import { ITask } from '../../interfaces/ITask';
-import { updateTaskStatus } from '../../features/taskSlice';
-import { useAppDispatch } from '../../store/hooks';
-import './TaskComponent.css'
-import DeleteTaskModal from '../UI/DeleteTaskModal/DeleteTaskModal';
 import { useEffect, useState } from 'react';
+import { ITask } from '../../interfaces/ITask';
+import { updateTaskCategory, updateTaskStatus } from '../../features/taskSlice';
+import { useAppDispatch } from '../../store/hooks';
+import DeleteTaskModal from '../UI/DeleteTaskModal/DeleteTaskModal';
+import './TaskComponent.css'
 
 interface Props {
     task: ITask;
@@ -34,7 +34,11 @@ const TaskComponent = ({ task }: Props) => {
     }, [task.date]);
 
     const handleOpenModal = () => {
-        setShowDeleteModal(true);
+        if (task.category !== 'Удалённые') {
+            dispatch(updateTaskCategory({ id: task.id, category: 'Удалённые' }));
+        } else {
+            setShowDeleteModal(true);
+        }
     };
 
     const handleCloseModal = () => {
@@ -42,15 +46,21 @@ const TaskComponent = ({ task }: Props) => {
     };
 
     const handleCheckboxChange = () => {
-        setStatus(!task.status);
-        dispatch(updateTaskStatus({ id: task.id, status: newStatus }));
+        const updatedStatus = !task.status;
+        setStatus(updatedStatus);
+        dispatch(updateTaskStatus({ id: task.id, status: updatedStatus }));
+        if (task.category !== 'Выполненные') {
+            dispatch(updateTaskCategory({ id: task.id, category: 'Выполненные' }));
+        } else {
+            dispatch(updateTaskCategory({ id: task.id, category: 'Мои задачи' }));
+        }
     };
 
     return (
         <div className='task-card'>
             <input
                 type="checkbox"
-                checked={task.status}
+                checked={newStatus}
                 onChange={handleCheckboxChange}
             />
             <span>{task.text}</span>

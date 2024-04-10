@@ -9,13 +9,14 @@ interface State {
   categories: string[];
 }
 
+export const directoryTags = ["Продуктивность", "Образование", "Здоровье", "Срочно"];
+export const directoryCategory = ["Мои задачи", "Важные", "Выполненные", "Удалённые"];
+
 const initialState: State = {
   tasks: [],
   error: null,
-  categories: ["Мои задачи", "Важные", "Выполненные", "Удалённые"],
+  categories: directoryCategory,
 };
-
-export const directoryTags = ["Продуктивность", "Образование", "Здоровье", "Срочно"];
 
 export const fetchTasks = createAsyncThunk("tasks/fetchTasks", async () => {
   const storedTasks = localStorage.getItem('tasks');
@@ -49,6 +50,7 @@ export const deleteTask = createAsyncThunk("tasks/deleteTask", async (id: string
   if (storedTasks) {
     tasks = JSON.parse(storedTasks);
   }
+
   tasks = tasks.filter(task => task.id !== id);
   localStorage.setItem('tasks', JSON.stringify(tasks));
   return tasks;
@@ -64,13 +66,35 @@ export const updateTaskStatus = createAsyncThunk("tasks/updateTaskStatus",
     }
 
     const taskIndex = tasks.findIndex(task => task.id === id);
+
     if (taskIndex !== -1) {
       tasks[taskIndex].status = status;
       localStorage.setItem('tasks', JSON.stringify(tasks));
     }
 
-    return tasks;
+    return tasks[taskIndex];
   });
+
+export const updateTaskCategory = createAsyncThunk(
+  "tasks/updateTaskCategory",
+  async ({ id, category }: { id: string, category: string }) => {
+    const storedTasks = localStorage.getItem('tasks');
+    let tasks: ITask[] = [];
+
+    if (storedTasks) {
+      tasks = JSON.parse(storedTasks);
+    }
+
+    const taskIndex = tasks.findIndex(task => task.id === id);
+
+    if (taskIndex !== -1) {
+      tasks[taskIndex].category = category;
+      localStorage.setItem('tasks', JSON.stringify(tasks));
+    }
+
+    return tasks[taskIndex];
+  }
+);
 
 const tasksSlice = createSlice({
   name: "tasks",
@@ -91,6 +115,20 @@ const tasksSlice = createSlice({
       })
       .addCase(deleteTask.fulfilled, (state, action) => {
         state.tasks = action.payload;
+      })
+      .addCase(updateTaskCategory.fulfilled, (state, action) => {
+        const updatedTask = action.payload;
+        const existingTaskIndex = state.tasks.findIndex(task => task.id === updatedTask.id);
+        if (existingTaskIndex !== -1) {
+          state.tasks[existingTaskIndex] = updatedTask;
+        }
+      })
+      .addCase(updateTaskStatus.fulfilled, (state, action) => {
+        const updatedTask = action.payload;
+        const existingTaskIndex = state.tasks.findIndex(task => task.id === updatedTask.id);
+        if (existingTaskIndex !== -1) {
+          state.tasks[existingTaskIndex] = updatedTask;
+        }
       });
   },
 });

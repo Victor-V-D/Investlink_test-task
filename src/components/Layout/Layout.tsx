@@ -1,12 +1,14 @@
 import { NavLink, Outlet } from 'react-router-dom';
 import { useState } from 'react';
+import { directoryCategory } from '../../features/taskSlice';
+import { directoryTags } from '../../features/taskSlice';
 import NewTaskModal from '../UI/NewTaskModal/NewTaskModal';
 import TaskList from '../../containers/TaskList/TaskList';
-import { directoryTags } from '../../features/taskSlice';
 import './Layout.css'
 
 const Layout = () => {
   const [showAddModal, setShowAddModal] = useState(false);
+  const [selectedFilter, setSelectedFilter] = useState('Мои задачи');
 
   const handleOpenModal = () => {
     setShowAddModal(true);
@@ -16,6 +18,10 @@ const Layout = () => {
     setShowAddModal(false);
   };
 
+  const handleFilterChange = (filter: string) => {
+    setSelectedFilter(filter);
+  };
+
   return (
     <div className="layout">
       <div className="sider">
@@ -23,27 +29,26 @@ const Layout = () => {
           Новая задача
         </NavLink>
         <div className="menu">
-          <NavLink className="menu-item menu-link" to="/my-task">
-            <img src="../../../public/my.png" alt="My Task" />
-            Мои задачи
-          </NavLink>
-          <NavLink className="menu-item menu-link" to="/important-task">
-            <img src="../../../public/important.png" alt="Important Task" />
-            Важные
-          </NavLink>
-          <NavLink className="menu-item menu-link" to="/done-task">
-            <img src="../../../public/done.png" alt="Done Task" />
-            Выполненные
-          </NavLink>
-          <NavLink className="menu-item menu-link" to="/delete-task">
-            <img src="../../../public/delete.png" alt="Delete Task" />
-            Удалённые
-          </NavLink>
+
+          <div className='menu-categories'>
+            <p className="menu-item" > Категории </p>
+            {directoryCategory.map((category) => (
+              <div key={category}>
+                <label htmlFor={category} onClick={() =>
+                  handleFilterChange(category)}>
+                  {category}
+                </label>
+              </div>
+            ))}
+          </div>
+
           <div className='menu-tags'>
             <p className="menu-item" > Тэги </p>
             {directoryTags.map((tag) => (
               <div key={tag}>
-                <label htmlFor={tag}>{tag}</label>
+                <label htmlFor={tag} onClick={() =>
+                  handleFilterChange(tag)}>{tag}
+                </label>
               </div>
             ))}
           </div>
@@ -52,7 +57,7 @@ const Layout = () => {
       <div className="content">
         <div className="main-content">
           <Outlet />
-          <TaskList />
+          <TaskList selectedFilter={selectedFilter} />
         </div>
       </div>
       {showAddModal && <NewTaskModal onClose={handleCloseModal} />}

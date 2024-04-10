@@ -33,11 +33,13 @@ const NewTaskModal = ({ onClose }: Props) => {
             return;
         }
 
+        const categories = isImportant ? 'Важные' : 'Мои задачи';
+
         const newTask = {
             id: uuidv4(),
             status: false,
             important: isImportant,
-            category: 'Мои задачи',
+            category: categories,
             text: taskText,
             tags: selectedTags,
             date: selectedDate ? selectedDate.toISOString() : '',
