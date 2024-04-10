@@ -1,7 +1,7 @@
 import { Routes, Route } from "react-router-dom";
 import Layout from "../components/Layout/Layout";
-import TaskList from "../containers/TaskList/taskList";
-import SearchBar from "../components/UI/SearchBar";
+import TaskList from "../containers/TaskList/TaskList";
+import SearchBar from "../components/UI/SearchBar/SearchBar";
 
 
 function AppRouter() {

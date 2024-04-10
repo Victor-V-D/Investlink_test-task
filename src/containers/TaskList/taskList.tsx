@@ -1,7 +1,7 @@
-import TaskComponent from "../../components/Task/task-card.tsx";
-import { RootState } from "../../store/store";
+import TaskComponent from "../../components/TaskComponent/TaskComponent.tsx";
+import { RootState } from "../../store/store.ts";
 import { useAppSelector } from "../../store/hooks.ts";
-// import './taskList.css'
+// import './TaskList.css'
 
 const TaskList = () => {
     const { tasks } = useAppSelector((state: RootState) => state.tasks.tasks);

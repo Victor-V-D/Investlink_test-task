@@ -5,15 +5,17 @@ import { ITask } from "../interfaces/ITask";
 
 interface State {
   error: Error | null;
-  loading: boolean;
   tasks: ITask[];
+  categories: string[];
 }
 
 const initialState: State = {
   tasks: [],
   error: null,
-  loading: false,
+  categories: ["Мои задачи", "Важные", "Выполненные", "Удалённые"],
 };
+
+export const directoryTags = ["Продуктивность", "Образование", "Здоровье", "Срочно"];
 
 export const fetchTasks = createAsyncThunk("tasks/fetchTasks", async () => {
   const storedTasks = localStorage.getItem('tasks');
@@ -25,19 +27,21 @@ export const fetchTasks = createAsyncThunk("tasks/fetchTasks", async () => {
   }
 });
 
-export const createTask = createAsyncThunk("tasks/createTask", async (task: ITask) => {
+export const createTask = createAsyncThunk("tasks/createTask", async (newTask: ITask) => {
   const storedTasks = localStorage.getItem('tasks');
   let tasks: ITask[] = [];
 
   if (storedTasks) {
     tasks = JSON.parse(storedTasks);
   }
-  tasks.push(task);
+
+  const taskWithStatus: ITask = { ...newTask, status: false, important: false };
+  tasks.push(taskWithStatus);
   localStorage.setItem('tasks', JSON.stringify(tasks));
   return tasks;
 });
 
-export const deleteTask = createAsyncThunk("tasks/deleteTask", async (id: number) => {
+export const deleteTask = createAsyncThunk("tasks/deleteTask", async (id: string) => {
   const storedTasks = localStorage.getItem('tasks');
   let tasks: ITask[] = [];
 
@@ -46,6 +50,25 @@ export const deleteTask = createAsyncThunk("tasks/deleteTask", async (id: number
   }
   tasks = tasks.filter(task => task.id !== id);
   localStorage.setItem('tasks', JSON.stringify(tasks));
+  return tasks;
+});
+
+export const updateTaskStatus = createAsyncThunk("tasks/updateTaskStatus", async ({ id, status }: { id: string, status: boolean }) => {
+  console.log("start");
+
+  const storedTasks = localStorage.getItem('tasks');
+  let tasks: ITask[] = [];
+
+  if (storedTasks) {
+    tasks = JSON.parse(storedTasks);
+  }
+
+  const taskIndex = tasks.findIndex(task => task.id === id);
+  if (taskIndex !== -1) {
+    tasks[taskIndex].status = status;
+    localStorage.setItem('tasks', JSON.stringify(tasks));
+  }
+
   return tasks;
 });
 
@@ -58,15 +81,10 @@ const tasksSlice = createSlice({
     builder
       .addCase(fetchTasks.fulfilled, (state, action) => {
         state.tasks = action.payload;
-        state.loading = false;
         state.error = null;
       })
       .addCase(fetchTasks.rejected, (state, action) => {
         state.error = action.error as Error;
-        state.loading = false;
-      })
-      .addCase(fetchTasks.pending, (state) => {
-        state.loading = true;
       })
       .addCase(createTask.fulfilled, (state, action) => {
         state.tasks = action.payload;
@@ -76,6 +94,8 @@ const tasksSlice = createSlice({
       });
   },
 });
+
+export const selectCategories = (state: State) => state.categories;
 
 export const tasksReducer = tasksSlice.reducer;
 
