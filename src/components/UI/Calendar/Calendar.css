@@ -1,5 +1,11 @@
+.calendar-days-of-week {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
 .calendar-container {
-    width: 300px;
+    max-width: 266px;
     border: 1px solid #ccc;
     border-radius: 5px;
     padding: 10px;
@@ -13,45 +19,96 @@
     margin-bottom: 10px;
 }
 
-.calendar-days {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-}
-
-.calendar-day {
-    padding: 5px;
+.calendar-header span {
+    font-family: Montserrat;
+    font-size: 14px;
     text-align: center;
 }
 
-.calendar-day:hover {
-    cursor: pointer;
-    background-color: #f0f0f0;
+.date-month {
+    font-weight: 500;
+    line-height: 23px;
+    color: #D0D2D6;
 }
 
-.calendar-day.selected {
-    background-color: #007bff;
-    color: white;
+.date-year {
+    font-weight: 400;
+    line-height: 21px;
+    color: #B4B7BD;
+}
+
+.calendar-days-of-week {
+    font-family: Montserrat;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 18px;
+    text-align: center;
+    color: #B4B7BD;
+}
+
+.calendar-days {
+    display: grid;
+    justify-items: center;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 5px;
+    font-family: Montserrat;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 21px;
+    text-align: center;
+    color: #B4B7BD;
+}
+
+.day {
+    cursor: pointer;
+    border: 2px solid transparent;
+    border-radius: 50%;
+    box-sizing: border-box;
+    padding: 3px 6px;
+}
+
+.day:hover {
+    border-color: #7367F0;
+    background-color: #283046;
+}
+
+.weekend {
+    color: #676D7D;
+}
+
+.selected-day {
+    color: #FFFFFF;
+    background-color: #7367F0;
 }
 
 .calendar-time {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     margin-top: 10px;
+}
+
+.calendar-time p {
+    color: white;
+}
+
+.calendar-time input {
+    font-family: Montserrat;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 21px;
+    text-align: left;
+    color: #6E6B7B;
+    border: 0;
+    background-color: rgba(255, 255, 255, 0);
+}
+
+.calendar-time input[type="number"] {
+    text-align: center;
 }
 
 .calendar-time-select {
     width: 50px;
     padding: 5px;
     margin-right: 5px;
-}
-
-.calendar-time-select:last-child {
-    margin-right: 0;
-}
-
-.calendar-time-select:focus {
-    outline: none;
-    border: 1px solid #007bff;
-}
-
-.calendar-time-select option {
-    background-color: white;
 }

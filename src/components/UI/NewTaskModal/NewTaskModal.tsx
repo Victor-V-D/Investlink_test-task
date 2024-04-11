@@ -77,34 +77,43 @@ const NewTaskModal = ({ onClose }: Props) => {
     };
 
     return (
-        <div className="modal-overlay" onClick={handleOverlayClick}>
-            <div className="modal">
-                <div className="modal-header">
-                    <div className="modal-content">
-                        <h2>Новая задача</h2>
-                        <label htmlFor="task-text">Текст задачи:</label>
+        <div className="add-modal-overlay" onClick={handleOverlayClick}>
+            <div className="add-modal">
+                <div className="add-modal-header">
+                    <p>Задача</p>
+                    <img src="../../../public/close.png" alt="Close Task" onClick={handleCancel} />
+                </div>
+                <div className="add-modal-content">
+                    <div>
+                        <label htmlFor="task-text">Название</label>
                         <input
                             id="task-text"
+                            className='add-input'
                             type="text"
+                            placeholder="Название задачи"
                             value={taskText}
                             onChange={(e) => setTaskText(e.target.value)}
                         />
+                    </div>
 
-                        <div className='important'>
-                            <label htmlFor="important">Важная задача:</label>
-                            <input
-                                type="checkbox"
-                                id="important"
-                                checked={isImportant}
-                                onChange={handleImportantChange}
-                            />
-                        </div>
+                    <div className='add-modal-important'>
+                        <input
+                            type="checkbox"
+                            id="important"
+                            checked={isImportant}
+                            onChange={handleImportantChange}
+                        />
+                        <label htmlFor="important">Важная задача</label>
+                    </div>
 
-                        <div className="date-input">
-                            <label htmlFor="selected-date">Выберите дату:</label>
+                    <div>
+                        <label htmlFor="selected-date">Дата и время окончания</label>
+                        <div className="date-input add-modal-space">
                             <input
                                 id="selected-date"
+                                className='add-input'
                                 type="text"
+                                placeholder="Дата и время"
                                 value={selectedDate ? selectedDate.toLocaleString('default',
                                     {
                                         hour: '2-digit', minute: '2-digit',
@@ -113,15 +122,17 @@ const NewTaskModal = ({ onClose }: Props) => {
                                 ) : ''}
                                 readOnly
                             />
-                            <img src="calendar-icon.png" alt="Календарь" onClick={() =>
+                            <img src="../../../public/calendar.png" alt="Calendar" onClick={() =>
                                 setIsCalendarOpen(!isCalendarOpen)} />
                         </div>
-                        {isCalendarOpen && <Calendar onDateSelect={handleDateSelect} />}
+                    </div>
+                    {isCalendarOpen && <Calendar onDateSelect={handleDateSelect} />}
 
-                        <div className='tags'>
-                            <label>Выберите теги:</label>
+                    <div>
+                        <label>Тэги</label>
+                        <div className='add-modal-tags add-modal-space'>
                             {directoryTags.map((tag) => (
-                                <div key={tag}>
+                                <div key={tag} className='add-modal-tag'>
                                     <input
                                         type="checkbox"
                                         id={tag}
@@ -133,11 +144,11 @@ const NewTaskModal = ({ onClose }: Props) => {
                                 </div>
                             ))}
                         </div>
-                        {error && <p className="error">{error}</p>}
-                        <div className="buttons">
-                            <button onClick={handleAddTask}>Сохранить</button>
-                            <button onClick={handleCancel}>Отмена</button>
-                        </div>
+                    </div>
+                    {error && <p className="add-error">{error}</p>}
+                    <div className='add-modal-buttons'>
+                        <button className='add-button' onClick={handleAddTask}>Добавить</button>
+                        <button className='cancel-button' onClick={handleCancel}>Удалить</button>
                     </div>
                 </div>
             </div>

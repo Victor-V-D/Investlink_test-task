@@ -28,17 +28,17 @@ const DeleteTaskModal = ({ taskId, onClose }: Props) => {
     };
 
     return (
-        <div className="modal-overlay" onClick={handleOverlayClick}>
-            <div className="modal">
-                <div className="modal-header">
-                    <h2>Подтверждение удаления</h2>
-                    <button className="close-button" onClick={handleCancel}>✕</button>
+        <div className="delete-modal-overlay" onClick={handleOverlayClick}>
+            <div className="delete-modal">
+                <div className="delete-modal-header">
+                    <img src="../../../public/alert.png" alt="Alert" />
                 </div>
-                <div className="modal-content">
-                    <p>Вы уверены, что хотите удалить эту задачу?</p>
-                    <div className="buttons">
-                        <button onClick={handleConfirmDelete}>Удалить</button>
-                        <button onClick={handleCancel}>Отмена</button>
+                <div className="delete-modal-content">
+                    <p className='delete-text-h'>Вы уверены?</p>
+                    <p className='delete-text-p'>Вы не сможете восстановить это.</p>
+                    <div className="delete-buttons">
+                        <button className='delete-button' onClick={handleConfirmDelete}>Да, удалить</button>
+                        <button className='cancel-button' onClick={handleCancel}>Отмена</button>
                     </div>
                 </div>
             </div>

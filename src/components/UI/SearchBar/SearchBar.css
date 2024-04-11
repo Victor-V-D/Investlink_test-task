@@ -3,6 +3,7 @@
     display: flex;
     align-items: center;
     padding: 18px 20px 18px 40px;
+    border-bottom: 1px solid #31394C;
 }
 
 .search-bar input {
@@ -11,10 +12,14 @@
     margin: 0;
     border: 0;
     background: #283046;
-    border-color: #283046;
+    font-family: Montserrat;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 21px;
+    text-align: left;
+    color: #B9B9C3;
 }
 
-/* .search-bar input:active {
-    background: #283046;
-    border-color: #283046;
-} */
+.search-bar input:focus {
+    outline: none;
+}

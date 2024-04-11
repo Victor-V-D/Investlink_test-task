@@ -57,6 +57,9 @@ const Calendar = ({ onDateSelect }: Props) => {
             if (currentDate.toDateString() === new Date().toDateString()) {
                 classNames.push("today");
             }
+            if (currentDate.toDateString() === selectedDate.toDateString()) {
+                classNames.push("selected-day");
+            }
             days.push(
                 <div key={i} className={classNames.join(" ")} onClick={() =>
                     handleDateSelect(currentDate)}>
@@ -75,24 +78,29 @@ const Calendar = ({ onDateSelect }: Props) => {
     return (
         <div className="calendar-container">
             <div className="calendar-header">
-                <button onClick={() =>
+                <img src="../../../public/back.png" alt="Calendar back" onClick={() =>
                     handleDateChange(new Date(selectedDate.getFullYear(),
-                        selectedDate.getMonth() - 1, 1))}>{'<'}
-                </button>
-                <span>{`${selectedDate.toLocaleString('default',
-                    { month: 'long' })} ${selectedDate.getFullYear()}`}
-                </span>
-                <button onClick={() =>
+                        selectedDate.getMonth() - 1, 1))} />
+                <div>
+                    <span className='date-month'>
+                        {`${selectedDate.toLocaleString('default', { month: 'long' })} `}
+                    </span>
+                    <span className='date-year'>
+                        {`${selectedDate.getFullYear()}`}
+                    </span>
+                </div>
+                <img src="../../../public/forward.png" alt="Calendar forward" onClick={() =>
                     handleDateChange(new Date(selectedDate.getFullYear(),
-                        selectedDate.getMonth() + 1, 1))}>{'>'}
-                </button>
+                        selectedDate.getMonth() + 1, 1))} />
             </div>
+
             <div className="calendar-days-of-week">
                 {renderDaysOfWeek()}
             </div>
             <div className="calendar-days">
                 {renderDaysOfMonth()}
             </div>
+
             <div className="calendar-time">
                 <input
                     type="number"
@@ -103,7 +111,7 @@ const Calendar = ({ onDateSelect }: Props) => {
                     max="23"
                     placeholder="Часы"
                 />
-                :
+                <p>:</p>
                 <input
                     type="number"
                     name="minute"

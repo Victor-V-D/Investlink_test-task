@@ -58,16 +58,29 @@ const TaskComponent = ({ task }: Props) => {
 
     return (
         <div className='task-card'>
-            <input
-                type="checkbox"
-                checked={newStatus}
-                onChange={handleCheckboxChange}
-                className="checkbox-input"
-            />
-            <span>{task.text}</span>
-            <p>{task.tags}</p>
-            <span>{formattedDate}</span>
-            <button onClick={handleOpenModal}>Удалить</button>
+            <div className='block'>
+                <input
+                    type="checkbox"
+                    checked={newStatus}
+                    onChange={handleCheckboxChange}
+                    className="checkbox-input"
+                />
+                <span className={task.important ? 'important-task' : ''}>
+                    {task.text}
+                </span>
+            </div>
+            <div className='block custom-block'>
+                <span className="tags-block space">
+                    {task.tags.map((tag, index) => (
+                        <span key={index} className={`tag-style-${tag}`}>
+                            {tag}
+                        </span>
+                    ))}
+                </span>
+                <span className='date-block space'>{formattedDate}</span>
+                <img src="../../../public/delete.png" alt="Delete Task"
+                    onClick={handleOpenModal} className='space' />
+            </div>
             {showDeleteModal && <DeleteTaskModal taskId={task.id} onClose={handleCloseModal} />}
         </div>
     );

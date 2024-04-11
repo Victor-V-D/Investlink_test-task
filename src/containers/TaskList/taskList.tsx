@@ -1,6 +1,7 @@
 import { RootState } from "../../store/store.ts";
 import { useAppSelector } from "../../store/hooks.ts";
 import TaskComponent from "../../components/TaskComponent/TaskComponent.tsx";
+import './TaskList.tsx.css'
 
 interface TaskListProps {
     selectedFilterCategory: string;
@@ -21,7 +22,7 @@ const TaskList = ({ selectedFilterCategory, selectedFilterTags }: TaskListProps)
 
     return (
         <div className="task-list">
-            <h1>{selectedFilterCategory}</h1>
+            <p className="filter-list">{selectedFilterCategory}</p>
             {filterTasks.map((task) => (
                 <TaskComponent
                     key={task.id}

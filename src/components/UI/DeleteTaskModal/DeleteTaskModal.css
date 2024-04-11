@@ -1,4 +1,4 @@
-.modal-overlay {
+.delete-modal-overlay {
     position: fixed;
     top: 0;
     right: 0;
@@ -11,27 +11,90 @@
     z-index: 9999;
 }
 
-.modal {
-    background-color: #fff;
+.delete-modal {
+    width: 512px;
+    height: 300px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #283046;
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
 
-.modal-header {
+.delete-modal-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 10px;
 }
 
-.close-btn {
-    background: none;
-    border: none;
-    cursor: pointer;
-    font-size: 18px;
+.delete-modal-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
-/* .modal-content {
-   
-} */
+.delete-modal-content p {
+    font-family: Montserrat;
+    text-align: center;
+    margin: 5px 0;
+}
+
+.delete-text-h {
+    font-size: 21px;
+    font-weight: 500;
+    line-height: 25.6px;
+    color: #D0D2D6;
+}
+
+.delete-item-p {
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 21px;
+    color: #B4B7BD;
+}
+
+.delete-buttons {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.delete-buttons button {
+    padding: 10px 22px;
+    margin: 0 10px;
+    border-radius: 5px;
+    font-family: Montserrat;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 17.07px;
+    letter-spacing: 0.4000000059604645px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.delete-button {
+    color: #FFFFFF;
+    background: #7367F0;
+    border: 0;
+}
+
+.delete-button:hover {
+    background: #8479F5;
+}
+
+.cancel-button {
+    background-color: rgba(255, 255, 255, 0);
+    color: #EA5455;
+    border: 1px solid #EA5455;
+}
+
+.cancel-button:hover {
+    background: #EA5455;
+    color: #FFFFFF;
+}

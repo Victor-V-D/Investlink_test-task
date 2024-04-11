@@ -70,7 +70,8 @@ const Layout = () => {
           <div className='menu-tags'>
             <p className="menu-item menu-item-tag"> Тэги </p>
             {directoryTags.map((tag) => (
-              <div key={tag} className="menu-item">
+              <div key={tag} className="menu-item custom-item">
+                <div className={`menu-tag-style-${tag}`}></div>
                 <label className={`${selectedFilterTags.includes(tag) ? 'selectedTag' : ''}`}
                   htmlFor={tag} onClick={() =>
                     handleFilterTag(tag)}>{tag}
@@ -80,6 +81,7 @@ const Layout = () => {
           </div>
         </div>
       </div>
+
       <div className="content">
         <div className="main-content">
           <Outlet />
