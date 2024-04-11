@@ -62,6 +62,7 @@ const TaskComponent = ({ task }: Props) => {
                 type="checkbox"
                 checked={newStatus}
                 onChange={handleCheckboxChange}
+                className="checkbox-input"
             />
             <span>{task.text}</span>
             <p>{task.tags}</p>

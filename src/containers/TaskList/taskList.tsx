@@ -3,16 +3,17 @@ import { useAppSelector } from "../../store/hooks.ts";
 import TaskComponent from "../../components/TaskComponent/TaskComponent.tsx";
 
 interface TaskListProps {
-    selectedFilter: string;
+    selectedFilterCategory: string;
+    selectedFilterTags: string[];
 }
 
-const TaskList = ({ selectedFilter }: TaskListProps) => {
+const TaskList = ({ selectedFilterCategory, selectedFilterTags }: TaskListProps) => {
     const { tasks } = useAppSelector((state: RootState) => state.tasks.tasks);
 
     const filterTasks = tasks.filter((task) => {
-        if (task.category.includes(selectedFilter)) {
+        if (task.category.includes(selectedFilterCategory)) {
             return true;
-        } else if (task.tags.includes(selectedFilter)) {
+        } else if (selectedFilterTags.some(tag => task.tags.includes(tag))) {
             return true;
         }
         return false;
@@ -20,7 +21,7 @@ const TaskList = ({ selectedFilter }: TaskListProps) => {
 
     return (
         <div className="task-list">
-            <h1>{selectedFilter}</h1>
+            <h1>{selectedFilterCategory}</h1>
             {filterTasks.map((task) => (
                 <TaskComponent
                     key={task.id}
@@ -30,5 +31,4 @@ const TaskList = ({ selectedFilter }: TaskListProps) => {
         </div>
     );
 };
-
 export default TaskList;

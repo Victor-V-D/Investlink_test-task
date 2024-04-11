@@ -8,7 +8,8 @@ import './Layout.css'
 
 const Layout = () => {
   const [showAddModal, setShowAddModal] = useState(false);
-  const [selectedFilter, setSelectedFilter] = useState('Мои задачи');
+  const [selectedFilterCategory, setFilterCategory] = useState('Мои задачи');
+  const [selectedFilterTags, setFilterTags] = useState<string[]>([]);
 
   const handleOpenModal = () => {
     setShowAddModal(true);
@@ -18,8 +19,31 @@ const Layout = () => {
     setShowAddModal(false);
   };
 
-  const handleFilterChange = (filter: string) => {
-    setSelectedFilter(filter);
+  const handleFilterCategory = (filter: string) => {
+    setFilterCategory(filter);
+  };
+
+  const handleFilterTag = (tag: string) => {
+    if (selectedFilterTags.includes(tag)) {
+      setFilterTags(selectedFilterTags.filter((selectedTag) => selectedTag !== tag));
+    } else {
+      setFilterTags([...selectedFilterTags, tag]);
+    }
+  };
+
+  const renderCategoryIcon = (category: string) => {
+    switch (category) {
+      case 'Мои задачи':
+        return <img src='../../../public/my.png' />;
+      case 'Важные':
+        return <img src='../../../public/important.png' />;
+      case 'Выполненные':
+        return <img src='../../../public/done.png' />;
+      case 'Удалённые':
+        return <img src='../../../public/delete.png' />;
+      default:
+        return null;
+    }
   };
 
   return (
@@ -31,11 +55,12 @@ const Layout = () => {
         <div className="menu">
 
           <div className='menu-categories'>
-            <p className="menu-item" > Категории </p>
             {directoryCategory.map((category) => (
-              <div key={category}>
+              <div key={category} className={`menu-item 
+              ${selectedFilterCategory === category ? 'selectedCategory' : ''}`}>
                 <label htmlFor={category} onClick={() =>
-                  handleFilterChange(category)}>
+                  handleFilterCategory(category)}>
+                  {renderCategoryIcon(category)}
                   {category}
                 </label>
               </div>
@@ -43,11 +68,12 @@ const Layout = () => {
           </div>
 
           <div className='menu-tags'>
-            <p className="menu-item" > Тэги </p>
+            <p className="menu-item menu-item-tag"> Тэги </p>
             {directoryTags.map((tag) => (
-              <div key={tag}>
-                <label htmlFor={tag} onClick={() =>
-                  handleFilterChange(tag)}>{tag}
+              <div key={tag} className="menu-item">
+                <label className={`${selectedFilterTags.includes(tag) ? 'selectedTag' : ''}`}
+                  htmlFor={tag} onClick={() =>
+                    handleFilterTag(tag)}>{tag}
                 </label>
               </div>
             ))}
@@ -57,7 +83,7 @@ const Layout = () => {
       <div className="content">
         <div className="main-content">
           <Outlet />
-          <TaskList selectedFilter={selectedFilter} />
+          <TaskList selectedFilterCategory={selectedFilterCategory} selectedFilterTags={selectedFilterTags} />
         </div>
       </div>
       {showAddModal && <NewTaskModal onClose={handleCloseModal} />}
