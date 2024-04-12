@@ -17,3 +17,9 @@
     color: #B9B9C3;
     cursor: pointer;
 }
+
+@media (max-width: 400px) {
+    .filter-list {
+        padding: 9px 10px 9px 10px;
+    }
+}

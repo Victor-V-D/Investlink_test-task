@@ -10,6 +10,7 @@ const Layout = () => {
   const [showAddModal, setShowAddModal] = useState(false);
   const [selectedFilterCategory, setFilterCategory] = useState('Мои задачи');
   const [selectedFilterTags, setFilterTags] = useState<string[]>([]);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   const handleOpenModal = () => {
     setShowAddModal(true);
@@ -49,35 +50,79 @@ const Layout = () => {
   return (
     <div className="layout">
       <div className="sider">
-        <NavLink className="menu-item menu-btn" to="#" onClick={handleOpenModal}>
-          Новая задача
-        </NavLink>
-        <div className="menu">
 
-          <div className='menu-categories'>
-            {directoryCategory.map((category) => (
-              <div key={category} className={`menu-item 
-              ${selectedFilterCategory === category ? 'selectedCategory' : ''}`}>
-                <label htmlFor={category} onClick={() =>
-                  handleFilterCategory(category)}>
-                  {renderCategoryIcon(category)}
-                  {category}
-                </label>
+        {!menuOpen && (
+          <button className="burger-btn" onClick={() => setMenuOpen(true)}>☰</button>
+        )}
+        {menuOpen && (
+          <div className="burger-menu">
+            {menuOpen && (
+              <button className="burger-btn" onClick={() => setMenuOpen(false)}>✖</button>
+            )}
+            <div className="menu">
+              <NavLink className="menu-item menu-btn" to="#" onClick={handleOpenModal}>
+                Новая задача
+              </NavLink>
+              <div className='menu-categories'>
+                {directoryCategory.map((category) => (
+                  <div key={category} className={`menu-item 
+                  ${selectedFilterCategory === category ? 'selectedCategory' : ''}`}>
+                    <label htmlFor={category} onClick={() =>
+                      handleFilterCategory(category)}>
+                      {renderCategoryIcon(category)}
+                      {category}
+                    </label>
+                  </div>
+                ))}
               </div>
-            ))}
+              <div className='menu-tags'>
+                <p className="menu-item menu-item-tag"> Тэги </p>
+                {directoryTags.map((tag) => (
+                  <div key={tag} className="menu-item custom-item">
+                    <div className={`menu-tag-style-${tag}`}></div>
+                    <label className={`${selectedFilterTags.includes(tag) ? 'selectedTag' : ''}`}
+                      htmlFor={tag} onClick={() =>
+                        handleFilterTag(tag)}>{tag}
+                    </label>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
+        )}
 
-          <div className='menu-tags'>
-            <p className="menu-item menu-item-tag"> Тэги </p>
-            {directoryTags.map((tag) => (
-              <div key={tag} className="menu-item custom-item">
-                <div className={`menu-tag-style-${tag}`}></div>
-                <label className={`${selectedFilterTags.includes(tag) ? 'selectedTag' : ''}`}
-                  htmlFor={tag} onClick={() =>
-                    handleFilterTag(tag)}>{tag}
-                </label>
-              </div>
-            ))}
+
+        <div className="normal-menu">
+          <NavLink className="menu-item menu-btn" to="#" onClick={handleOpenModal}>
+            Новая задача
+          </NavLink>
+          <div className="menu">
+
+            <div className='menu-categories'>
+              {directoryCategory.map((category) => (
+                <div key={category} className={`menu-item 
+              ${selectedFilterCategory === category ? 'selectedCategory' : ''}`}>
+                  <label htmlFor={category} onClick={() =>
+                    handleFilterCategory(category)}>
+                    {renderCategoryIcon(category)}
+                    {category}
+                  </label>
+                </div>
+              ))}
+            </div>
+
+            <div className='menu-tags'>
+              <p className="menu-item menu-item-tag"> Тэги </p>
+              {directoryTags.map((tag) => (
+                <div key={tag} className="menu-item custom-item">
+                  <div className={`menu-tag-style-${tag}`}></div>
+                  <label className={`${selectedFilterTags.includes(tag) ? 'selectedTag' : ''}`}
+                    htmlFor={tag} onClick={() =>
+                      handleFilterTag(tag)}>{tag}
+                  </label>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </div>
