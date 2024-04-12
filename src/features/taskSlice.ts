@@ -1,12 +1,14 @@
 import { persistReducer } from 'redux-persist';
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import storage from 'redux-persist/lib/storage';
 import { ITask } from "../interfaces/ITask";
+import { RootState } from '../store/store';
 
 interface State {
   error: Error | null;
   tasks: ITask[];
   categories: string[];
+  filteredTasks: ITask[];
 }
 
 export const directoryTags = ["Продуктивность", "Образование", "Здоровье", "Срочно"];
@@ -16,6 +18,7 @@ const initialState: State = {
   tasks: [],
   error: null,
   categories: directoryCategory,
+  filteredTasks: [],
 };
 
 export const fetchTasks = createAsyncThunk("tasks/fetchTasks", async () => {
@@ -99,7 +102,12 @@ export const updateTaskCategory = createAsyncThunk(
 const tasksSlice = createSlice({
   name: "tasks",
   initialState,
-  reducers: {},
+  reducers: {
+    searchTasks: (state, action: PayloadAction<string>) => {
+      const searchTerm = action.payload.toLowerCase();
+      state.filteredTasks = state.tasks.filter(task => task.text.toLowerCase().includes(searchTerm));
+    },
+  },
 
   extraReducers: (builder) => {
     builder
@@ -133,8 +141,10 @@ const tasksSlice = createSlice({
   },
 });
 
-export const selectCategories = (state: State) => state.categories;
+export const { searchTasks } = tasksSlice.actions;
+export const selectFilteredTasks = (state: RootState) => state.tasks.tasks.filteredTasks;
 
+export const selectCategories = (state: State) => state.categories;
 export const tasksReducer = tasksSlice.reducer;
 
 const persistConfig = {

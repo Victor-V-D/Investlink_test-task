@@ -7,9 +7,10 @@ import './TaskComponent.css'
 
 interface Props {
     task: ITask;
+    searchQuery: string;
 }
 
-const TaskComponent = ({ task }: Props) => {
+const TaskComponent = ({ task, searchQuery }: Props) => {
     const dispatch = useAppDispatch();
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [newStatus, setStatus] = useState(task.status);
@@ -66,7 +67,19 @@ const TaskComponent = ({ task }: Props) => {
                     className="checkbox-input"
                 />
                 <span className={task.important ? 'important-task' : ''}>
-                    {task.text}
+                    {searchQuery ? (
+                        <>
+                            {task.text.split(new RegExp(`(${searchQuery})`, 'gi')).map((part, index) => (
+                                part.toLowerCase() === searchQuery.toLowerCase() ? (
+                                    <span key={index} className="highlight">{part}</span>
+                                ) : (
+                                    <span key={index}>{part}</span>
+                                )
+                            ))}
+                        </>
+                    ) : (
+                        task.text
+                    )}
                 </span>
             </div>
             <div className='block custom-block'>

@@ -87,3 +87,7 @@ input {
     background: #FF9F431F;
     color: #FF9F43;
 }
+
+.highlight {
+    font-weight: bold;
+}
