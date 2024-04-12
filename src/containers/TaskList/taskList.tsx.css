@@ -7,3 +7,13 @@
     font-family: Montserrat;
     border-bottom: 1px solid #31394C
 }
+
+.showMore {
+    text-align: center;
+    font-family: Montserrat;
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 21px;
+    color: #B9B9C3;
+    cursor: pointer;
+}

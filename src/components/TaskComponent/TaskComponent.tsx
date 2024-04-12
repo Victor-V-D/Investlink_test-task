@@ -34,7 +34,7 @@ const TaskComponent = ({ task, searchQuery }: Props) => {
         }
     }, [task.date]);
 
-    const handleOpenModal = () => {
+    const handleDeletModal = () => {
         if (task.category !== 'Удалённые') {
             dispatch(updateTaskCategory({ id: task.id, category: 'Удалённые' }));
         } else {
@@ -52,7 +52,22 @@ const TaskComponent = ({ task, searchQuery }: Props) => {
         dispatch(updateTaskStatus({ id: task.id, status: updatedStatus }));
         if (task.category !== 'Выполненные') {
             dispatch(updateTaskCategory({ id: task.id, category: 'Выполненные' }));
-        } else {
+        } else if (task.important) {
+            dispatch(updateTaskCategory({ id: task.id, category: 'Важные' }));
+        }
+        else {
+            dispatch(updateTaskCategory({ id: task.id, category: 'Мои задачи' }));
+        }
+    };
+
+    const handleRestoreTask = () => {
+        if (task.status) {
+            dispatch(updateTaskCategory({ id: task.id, category: 'Выполненные' }));
+        }
+        else if (task.important) {
+            dispatch(updateTaskCategory({ id: task.id, category: 'Важные' }));
+        }
+        else {
             dispatch(updateTaskCategory({ id: task.id, category: 'Мои задачи' }));
         }
     };
@@ -92,7 +107,11 @@ const TaskComponent = ({ task, searchQuery }: Props) => {
                 </span>
                 <span className='date-block space'>{formattedDate}</span>
                 <img src="../../../public/delete.png" alt="Delete Task"
-                    onClick={handleOpenModal} className='space' />
+                    onClick={handleDeletModal} className='space' />
+                {task.category === 'Удалённые' && (
+                    <img src="../../../public/restore.png" alt="Restore Task"
+                        onClick={handleRestoreTask} className='space' />
+                )}
             </div>
             {showDeleteModal && <DeleteTaskModal taskId={task.id} onClose={handleCloseModal} />}
         </div>

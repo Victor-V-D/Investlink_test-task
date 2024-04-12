@@ -99,6 +99,14 @@ export const updateTaskCategory = createAsyncThunk(
   }
 );
 
+export const updateTaskOrder = createAsyncThunk(
+  "tasks/updateTaskOrder",
+  async (newTaskOrder: ITask[]) => {
+    localStorage.setItem('tasks', JSON.stringify(newTaskOrder));
+    return newTaskOrder;
+  }
+);
+
 const tasksSlice = createSlice({
   name: "tasks",
   initialState,
@@ -137,6 +145,9 @@ const tasksSlice = createSlice({
         if (existingTaskIndex !== -1) {
           state.tasks[existingTaskIndex] = updatedTask;
         }
+      })
+      .addCase(updateTaskOrder.fulfilled, (state, action) => {
+        state.tasks = action.payload;
       });
   },
 });

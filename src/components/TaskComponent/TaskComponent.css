@@ -22,6 +22,10 @@ input {
     background-color: #242C43;
 }
 
+.task-card:active {
+    background-color: #242C43;
+}
+
 .block {
     display: flex;
     align-items: center;
