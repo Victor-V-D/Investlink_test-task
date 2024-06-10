@@ -4,7 +4,7 @@ import { RootState } from "../../store/store.ts";
 import { useAppDispatch, useAppSelector } from "../../store/hooks.ts";
 import TaskComponent from "../../components/TaskComponent/TaskComponent.tsx";
 import SearchBar from '../../components/UI/SearchBar/SearchBar.tsx';
-import './TaskList.tsx.css';
+import './TaskList.css';
 import { updateTaskOrder } from '../../features/taskSlice.ts';
 
 interface TaskListProps {
